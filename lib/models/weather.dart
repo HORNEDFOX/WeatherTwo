@@ -1,15 +1,17 @@
 import 'package:weather/models/forecast.dart';
 
 class Weather extends Forecast{
-  final String city;
-  final String country;
-  final int humidity;
-  final int windSpeed;
-  final int wind;
-  final int pressure;
+  final String city; //Название города
+  final String country; //Название страны
+  final int humidity; //Влажность
+  final int windSpeed; //Скорость ветра
+  final int wind; //Градусы направления ветра
+  final int pressure; //Атмосферное давление
 
+  //Конструктор с параметрами
   Weather({required String weather, required int temp, required DateTime date, required this.city, required this.country, required this.humidity, required this.windSpeed, required this.wind, required this.pressure}) : super(weather: weather, temp: temp, date: date);
 
+  //Фабричный конструктор, принимающий json и десериализующий их
   @override
   factory Weather.fromJson(Map<String, dynamic> json){
     return Weather(
@@ -25,6 +27,7 @@ class Weather extends Forecast{
     );
   }
 
+  //Функция определяющая направления ветра
   String windDirection()
   {
     if(wind == 360 || wind == 0)

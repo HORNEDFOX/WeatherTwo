@@ -36,11 +36,18 @@ class _CityPageState extends State<CityPage> {
   );
   final globalKey = GlobalKey<ScaffoldState>();
   final TextEditingController _controller = TextEditingController();
+
+  //Флаг. Используется для отслеживания нажатия кнопки поиска и закрытия поиска в AppBar
   late bool _isSearching;
+
+  //Текст при поиске города
   String _searchText = "";
+
+  //Лист, в котором хранится список городов, удовлетворяющих условию поиска
   List searchresult = [];
 
   _CityPageState() {
+    //Слушатель для контроллера TextField
     _controller.addListener(() {
       if (_controller.text.isEmpty) {
         setState(() {
@@ -98,6 +105,7 @@ class _CityPageState extends State<CityPage> {
                       child: BlocBuilder<CityBloc, CityState>(
                           builder: (context, state) {
                             if (state is CityLoadedState) {
+                              //Если текст в TextField не пуст или список городов удовлетворяющих условию не пуст, то выводим список найденных городов
                               return searchresult.isNotEmpty ||
                                   _controller.text.isNotEmpty
                                   ? ListView.builder(
@@ -227,6 +235,7 @@ Widget buildAppBar(BuildContext context, List<City> city) {
                 );
                 _handleSearchStart();
               } else {
+                //Отрисовываем первичный AppBar при завершении поиска
                 _handleSearchEnd();
               }
             });
@@ -235,6 +244,7 @@ Widget buildAppBar(BuildContext context, List<City> city) {
       ]);
 }
 
+//Изменение флага поиска на "Истина"
 void _handleSearchStart() {
   setState(() {
     _isSearching = true;
@@ -248,7 +258,7 @@ void _handleSearchEnd() {
       color: Colors.white,
     );
     appBarTitle = const Text(
-      "Search Sample",
+      "Search City",
       style: TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.w300,
@@ -267,6 +277,7 @@ void _handleSearchEnd() {
   });
 }
 
+//Функция поиска городов с писке, удовлетворяющих условию и загрузка их в новый список
 void searchOperation(String searchText, List<City> city) {
   searchresult.clear();
   for (int i = 0; i < city.length; i++) {

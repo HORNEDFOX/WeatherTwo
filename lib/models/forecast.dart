@@ -1,10 +1,12 @@
 class Forecast extends Comparable{
-  final DateTime date;
-  final int temp;
-  final String weather;
+  final DateTime date; //Дата
+  final int temp; //Температура
+  final String weather; //Описание погоды
 
+  //Конструктор с параметрами
   Forecast({required this.date, required this.weather, required this.temp});
 
+  //Фабричный конструктор, принимающий json и десериализующий их
   factory Forecast.fromJson(Map<String, dynamic> json) {
     return Forecast(
       temp: double.parse(json['temp']['day'].toString()).toInt(),
@@ -13,6 +15,7 @@ class Forecast extends Comparable{
     );
   }
 
+  //Функция выбора иконки погоды согласно времени суток
   String getIconWeather() {
     if (weather == "Clouds") {
       if (date.hour >= 6 && date.hour <= 17) {
@@ -50,6 +53,7 @@ class Forecast extends Comparable{
     print("\n______________________________________________\n");
   }
 
+  //Функция для сортировки списка погоды согласно температуре
   @override
   int compareTo(other) {
     if (temp < other.temp) {
